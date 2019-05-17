@@ -244,6 +244,7 @@
           $ sudo docker run hello-world
           ```
           Эта команда загрузит образ, создаст и запустит "Hello, World!" контейнер
+
           /\*lets try\*/
         </script>
       </section>
@@ -287,7 +288,7 @@
         </script>
       </section>
 
-      <section data-markdown>
+      <!--section data-markdown>
         <script type="text/template">
           Перед созданием "Hello, world!" контейнера, в локальную файловую систему скачался образ hello-world
           для последующих запусков он будет взят из локального хранилища. Можно посмотреть доступные локально образы:
@@ -328,7 +329,7 @@
           929a5e54e8bf  hello-world  "/hello"  2 minutes ago  Exited (0) 2 minutes ago
           ```
         </script>
-      </section>
+      </section-->
 
       <section data-markdown>
         <script type="text/template">
@@ -354,65 +355,60 @@
       </section>
     </section>
 
-        <section>
+    <!--Section 3-->
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          #3. Образы (Images)
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              #3. Images
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Поиск образов на Docker Hub
+          - Множество образов доступны для использования
+          - Образы лежат в различных репозиториях
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ## Search for Images on Docker Hub
-              - lots of Images available for use
-              - Images reside in various Repositories
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          <a href="https://hub.docker.com/search?q=&type=image" target="_blank">https://hub.docker.com/search</a>
+          <img src="img/docker_explore_official_repo.png" alt="">
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              https://hub.docker.com/explore/
-              <img src="img/docker_explore_official_repo.png" alt="">
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Показать локальные образы
+          ```
+          $ docker images
+          ```
+          - При создании контейнера Docker сначала пытается найти образ локально
+          - Если нет локальной копии, Docker пойдет настроенный Registry или на Docker Hub (Registry по умолчанию)
 
+          /\*lets take a look\*/
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Display Local Images
-              ```
-              $ docker images
-              ```
-              - When creating a container, docker will attempt to use a local image first
-              - If no local image is found, the Docker daemon will look in Docker Hub unless another registry is specified.
-              <br>
-              <br>
-              /\*lets take a look\*/
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Тэги Образов (Image Tags)
+          - Образы идендифицируются по строке repository:tag
+          - Один образ может иметь множество тэгов
+          - Тэг по умолчанию - `latest`
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Image Tags
-              - Images are specified by repository:tag
-              - The same image may have multiple tags
-              - Default tag is `latest`
-              <br>
-              <br>
-              Classically Tags are version or tools
-            </script>
-          </section>
+          Традиционно в качестве тэга используется имя версии и/или используемых инструментов
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ###Available tags for **openjdk** image
-              <img src="img/docker_openjdk_tags.png" alt="">
-
-            </script>
-          </section>
-
-        </section>
+      <section data-markdown>
+        <script type="text/template">
+          ###Тэги используемые для образов **openjdk**
+          <img src="img/docker_openjdk_tags.png" alt="">
+        </script>
+      </section>
+    </section>
 
         <section>
 
