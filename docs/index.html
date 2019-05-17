@@ -6,7 +6,8 @@
 
   <title>Docker</title>
 
-  <meta name="description" content="cours d'introduction a l'administration system">
+  <meta name="description" content="Docker workshop slides">
+  <meta name="author" content="Artem Kolin">
   <meta name="author" content="Loic Delestra">
 
   <meta name="apple-mobile-web-app-capable" content="yes"/>
@@ -49,7 +50,7 @@
       </script>
     </section>
 
-    <!--Section 1-->
+    <!--#1. Введение-->
     <section>
       <section data-markdown>
         <script type="text/template">
@@ -175,7 +176,7 @@
 
     </section>
 
-    <!--Section 2-->
+    <!--#2. Понятия и термины-->
     <section>
       <section data-markdown>
         <script type="text/template">
@@ -355,7 +356,7 @@
       </section>
     </section>
 
-    <!--Section 3-->
+    <!--#3. Образы (Images)-->
     <section>
       <section data-markdown>
         <script type="text/template">
@@ -410,117 +411,115 @@
       </section>
     </section>
 
-        <section>
+    <!--#4. Знакомство с контейнерами-->
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          #4. Знакомство с контейнерами
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              #4. Getting Started with Containers
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Создание контейнера
+          Используя `docker run`
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Creating a Container
-              Using `docker run`
-              <br>
-              <br>
-              Syntax:
-              ```
-              $ docker run [options] [image] [command] [args]
-              ```
-              - image is specified with repository:tag
+          Синтаксис:
+          ```
+          $ docker run [options] [image] [command] [args]
+          ```
+          - image указывается как repository:tag
 
-              <br>
-              examples:
-              ```
-              docker run ubuntu:14.04 ps aux
-              ```
-              /\*Demo time\*/
-            </script>
-          </section>
+          Пример:
+          ```
+          sudo docker run ubuntu:14.04 ps aux
+          ```
+          /\*Demo time\*/
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Container with Terminal
-              Use some options:
-              - `-i` flag tells docker to connect to STDIN on the container
-              - `-t` flag specifies to get a pseudo-terminal
+      <section data-markdown>
+        <script type="text/template">
+          ##Контейнер с терминалом
+          Задейсвуем опции:
+          - `-i, --interactive` флаг сообщает Docker'у, что нужно подключиться к STDIN контейнера
+          - `-t, --tty` флаг сообщает Docker'у, что нужно использовать pseudo-terminal
 
-              ###Example
-              ```
-              docker run -i -t ubuntu /bin/bash
-              ```
-              /\*Demo time. Adding user\*/
-            </script>
-          </section>
+          ###Пример
+          ```
+          docker run -i -t ubuntu /bin/bash
+          ```
+          /\*Demo time\*/
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Container Processes
-              - A container only runs as long as the process from your command is running
-              - Your command's process is always PID 1 inside the container
-              <!-- exit container without stop ctrl+p+q -->
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Процессы внутри контейнера
+          - Контейнер запущен пока запущен процесс из переданной команды (например: `/bin/bash`)
+          - Процесс из переданной команды всегда имеет PID 1 внутри контейнера
+          - Выход из контейнера без прерывания процесса: `ctrl + p + q`
+        </script>
+      </section>
 
-          <section>
-              <img src="img/docker_container_processes.png" alt="">
-          </section>
+      <section>
+        <img src="img/docker_container_processes.png" alt="">
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Container ID
-              - Containers can be specified using their ID or name
-              - Long ID and short ID
-              - Short ID and name can be obtained using `docker ps` command to list containers
-              - Long ID obtained by inspecting a container
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##ID контейнера
+          - Контейнер может быть идентифицирован по ID или именм
+          - Короткому или длинному ID
+          - Короткий ID и имя можно получить используя команду вывода списка контейнеров `docker ps`
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Find your Containers
-              - use `docker ps` to list running containers
-              - use `docker ps -a` to list all containers (includes containers that are stopped)
+      <section data-markdown>
+        <script type="text/template">
+          ##Где найти список своих контейнеров
+          - команда `docker ps` покажет запущенные контейнеры
+          - команда `docker ps -a` покажет все контейнеры, в т.ч. остановленные
 
-              /\*Take a look\*/
-            </script>
-          </section>
+          /\*Take a look\*/
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Running in Detached Mode
-              - Also know as running in the background or as a daemon
-              - Use -d flag
-              - To observe output use docker logs [container id]
+      <section data-markdown>
+        <script type="text/template">
+          ##Запуск в фоновом режиме (Detached Mode)
+          - Также известном как режим сервиса (Daemon)
+          - Используйте флаг `-d, --detach`
+          - Чтобы посмотреть STDOUT используйте `docker logs [container id]`
 
-              <br>
-              Example:
-              ```
-              docker run -d ubuntu:14.04 ping 127.0.0.1 -c 50
+          <br>Пример:
+          ```
+          $ docker run -d ubuntu ping 127.0.0.1 -c 50
+          29cbbcd1150f255769a549f4ef83a38a5216c2f06b1f5891530b4207266f8260
 
-              ```
+          $ docker logs 29cbbcd1150f255769a549f4ef83a38a5216c2f06b1f5891530b4207266f8260
+          PING 127.0.0.1 (127.0.0.1) 56(84) bytes of data.
+          64 bytes from 127.0.0.1: icmp_seq=1 ttl=64 time=0.041 ms
+          ```
 
-              /\*Take a look\*/
-            </script>
-          </section>
+          /\*Take a look\*/
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Ports mapping
-              - Run a web application inside a container
-              - The -P flag to map container ports to host ports
+      <section data-markdown>
+        <script type="text/template">
+          ##Ports mapping
+          - Запустим web приложение в контейнере
+          - Используем флаг `-P, --publish-all` для маппинга портов из контейнера на хост
 
-              <br>
-              Example:
-              ```
-              $ docker run -d -P tomcat
-              ```
-              /\*Take a look\*/
-            </script>
-          </section>
-
-        </section>
+          <br>Пример:
+          ```
+          $ docker run -d -P tomcat
+          ```
+          /\*Take a look\*/
+        </script>
+      </section>
+    </section>
 
         <section>
 
@@ -602,7 +601,7 @@
               - FROM instruction specifies what the base image should be
               - RUN instruction specifies a command to execute
 
-              Example:
+              Пример:
               ```
               FROM ubuntu:14.04
               RUN apt-get install -y vim
@@ -617,7 +616,7 @@
               - Each RUN instruction will execute the command on the top writable layer and perform a commit of the image
               - Can aggregate multiple RUN instructions by using `&&`
 
-              Example:
+              Пример:
               ```
               RUN apt-get update && apt-get install -y curl vim
               ```
@@ -667,7 +666,7 @@
             <script type="text/template">
               output
               ```bash
-              bash-3.2$ cat Dockerfile 
+              bash-3.2$ cat Dockerfile
               FROM ubuntu:14.04
               RUN apt-get update && apt-get install -y vim
 
@@ -711,7 +710,7 @@
               ###Example
 
               ```bash
-              bash-3.2$ cat Dockerfile 
+              bash-3.2$ cat Dockerfile
               FROM ubuntu:14.04
               RUN apt-get update && apt-get install -y vim
               CMD ["ping", "127.0.0.1", "-c", "30"]
@@ -729,7 +728,7 @@
                ---> 8637e2fd41fd
               Removing intermediate container 13829d762189
               Successfully built 8637e2fd41fd
-              bash-3.2$  
+              bash-3.2$
               ```
               Adding a layer is very faster than building first image
             </script>
@@ -752,7 +751,7 @@
               ###Example
               Dockerfile
               ```bash
-              bash-3.2$ cat Dockerfile 
+              bash-3.2$ cat Dockerfile
               FROM ubuntu:14.04
               RUN apt-get update && apt-get install -y vim
               ENTRYPOINT ["ping"]
@@ -799,13 +798,13 @@
         </section>
 
         <section>
-        
+
           <section data-markdown>
             <script type="text/template">
               #7. Managing Images and Containers
             </script>
           </section>
-        
+
           <section data-markdown>
             <script type="text/template">
               ##Start and Stop Containers
@@ -819,7 +818,7 @@
               ```
             </script>
           </section>
-        
+
           <section data-markdown>
             <script type="text/template">
               ##Getting terminal access
@@ -827,11 +826,11 @@
               - Execute /bin/bash to get a bash shell
               - `docker exec -i -t [container ID] /bin/bash`
               - Exiting from the terminal will **not** terminate the container
-              
+
               /\*lets try with tomcat\*/
             </script>
           </section>
-        
+
           <section data-markdown>
             <script type="text/template">
               ##Deleting Containers
@@ -840,7 +839,7 @@
               - Specify the container ID or name
             </script>
           </section>
-        
+
           <section data-markdown>
             <script type="text/template">
               ##Deleting local Images
@@ -849,7 +848,7 @@
               - if an image is tagged multiple times, you have to delete each tag
             </script>
           </section>
-        
+
           <section data-markdown>
             <script type="text/template">
               ##Renaming Tagging Images
@@ -861,7 +860,7 @@
               `docker tag [local repo:tag] [Docker Hub repo:tag]`
             </script>
           </section>
-        
+
           <section data-markdown>
             <script type="text/template">
               ##Docker Hub Repositories
@@ -930,7 +929,7 @@
               - Can specify arguments JSON array or string
               - Cannot map volumes to host directories
               - Volumes are initialized when the container is executed
-              
+
               ```
               #String example
               VOLUME /myvol
@@ -1048,8 +1047,8 @@
             <script type="text/template">
               ##Uses of Linking
               - Containers can talk to each other without having to expose ports to the host
-              - Essential for micro service application architecture 
-              - Example:
+              - Essential for micro service application architecture
+              - Пример:
                 - Container with Tomcat running
                 - Container with MySQL running
                 - Application on Tomcat needs to connect to MySQL
@@ -1085,25 +1084,25 @@
 
           <section data-markdown>
             <script type="text/template">
-              Create a user-defined bridge network  
-              `$ docker network create my-net`  
-              Display create options   
+              Create a user-defined bridge network
+              `$ docker network create my-net`
+              Display create options
               `$ docker network create --help`
 
               ---
-              Remove a user-defined bridge network  
+              Remove a user-defined bridge network
               `$ docker network rm my-net`
             </script>
           </section>
           <section data-markdown>
             <script type="text/template">
-              Connect a container to a user-defined bridge  
-              `$ docker create --name my-nginx --network my-net --publish 8080:80 nginx:latest`  
+              Connect a container to a user-defined bridge
+              `$ docker create --name my-nginx --network my-net --publish 8080:80 nginx:latest`
 
               ---
-              connect a running container to an existing user-defined bridge  
-              `$ docker network connect my-net my-nginx`  
-              Disconnect a container from a user-defined bridge  
+              connect a running container to an existing user-defined bridge
+              `$ docker network connect my-net my-nginx`
+              Disconnect a container from a user-defined bridge
               `$ docker network disconnect my-net my-nginx`
 
             </script>
@@ -1240,21 +1239,21 @@
               #12. Building Micro Service Applications
             </script>
           </section>
-          
+
           <section data-markdown>
             <script type="text/template">
               ##Traditional style monolithic architecture
               <img src="img/docker_architecture_traditional.png" alt="">
             </script>
           </section>
-          
+
           <section data-markdown>
             <script type="text/template">
               ##Micro service architecture
               <img src="img/docker_architecture_microservices.png" alt="">
             </script>
           </section>
-          
+
           <section data-markdown>
             <script type="text/template">
               ##Advantages
@@ -1266,12 +1265,12 @@
               - The whole application does not have to be committed to one technology stack
             </script>
           </section>
-          
+
           <section data-markdown>
             <script type="text/template">
             </script>
           </section>
-          
+
         </section>
 
         <section>
