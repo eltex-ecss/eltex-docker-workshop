@@ -173,7 +173,6 @@
           - Бо́льшая портативность
         </script>
       </section>
-
     </section>
 
     <!--#2. Понятия и термины-->
@@ -208,16 +207,16 @@
           ```
           sudo apt-get update
           sudo apt-get install \
-          apt-transport-https \
-          ca-certificates \
-          curl \
-          gnupg-agent \
-          software-properties-common
+            apt-transport-https \
+            ca-certificates \
+            curl \
+            gnupg-agent \
+            software-properties-common
           curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
           sudo add-apt-repository \
-          "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-          $(lsb_release -cs) \
-          stable"
+            "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+            $(lsb_release -cs) \
+            stable"
           ```
           ####Установка Docker CE
           ```
@@ -521,60 +520,57 @@
       </section>
     </section>
 
-        <section>
+    <!--#5. Создание образов-->
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          #5. Создание образов
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              #5. Building images
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Слои образов (Layers)
+          - Образы состоят из множества слоев
+          - Каждый слой это просто еще один образ
+          - Каждый образ содержит базовый слой
+          - Docker использует копию верхнего слоя для записи
+          - Слои доступны только для чтения
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Image Layers
-              - Images are composed of multiple layers
-              - A layer is also just another image
-              - Every image contains a base layer
-              - Docker uses a copy on write system
-              - Layers are read only
-            </script>
-          </section>
+      <section>
+        <img src="img/docker_image_layers.png" alt="">
+      </section>
 
-          <section>
-            <img src="img/docker_image_layers.png" alt="">
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Слой доступный для записи
+          - Для контейнеров Docker создает верхний слой с разрешенными операциями записи
+          - Родительский образ при этом с доступом Read-only
+          - Все изменения делаются только на верхнем слое
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##The Container Writable Layer
-              - Docker creates a top writable layer for containers
-              - Parent images are read only
-              - All changes are made at the writeable layer
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Docker commit
+          - команда `docker commit` сохраняет измененный контейнер как новый образ
+          ```
+          docker commit [options] [container ID] [repository:tag]
+          ```
+          - Имя репозитория должно быть вида `username/application`
+          - В качестве ссылки на контейнер может использоваться не только его ID, но и имя
+          ```
+          docker commit [id] person/samba:1.0
+          ```
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Docker commit
-              - **docker commit** command saves changes in a container as a new image
+          >note default tag is latest
 
-              ```
-              docker commit [options] [container ID] [repository:tag]
-              ```
-
-              - Repository name should be based on username/application
-              - Can reference the container with container name instead of ID
-
-              ```
-              docker commit <id> lodelestra/vim:1.0
-              ```
-
-              >note default tag is latest
-
-              /\*lets try commit and run\*/
-            </script>
-          </section>
-        </section>
+          /\*lets try commit and run\*/
+        </script>
+      </section>
+    </section>
 
         <section>
 
