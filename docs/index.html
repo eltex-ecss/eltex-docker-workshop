@@ -296,17 +296,37 @@
           REPOSITORY    TAG      IMAGE ID        CREATED        SIZE
           hello-world   latest   fce289e99eb9    4 months ago   1.84kB
           ```
+        </script>
+      </section>
+
+      <section data-markdown>
+        <script type="text/template">
           Список контейнеров можно посмотреть так:
           ```
           $ docker container ls --all
           CONTAINER ID  IMAGE        COMMAND   CREATED         STATUS
-          929a5e54e8bf  hello-world  "/hello"  21 minutes ago  Exited (0) 21 minutes ago
+          929a5e54e8bf  hello-world  "/hello"  2 minutes ago   Exited (0) 2 minutes ago
           ```
+        </script>
+      </section>
+
+      <section data-markdown>
+        <script type="text/template">
           Повторный запуск команды
           ```
           $ sudo docker run hello-world
           ```
           создаст новый контейнер, образ же при этом останется один
+          ```
+          $ docker image ls
+          REPOSITORY    TAG      IMAGE ID        CREATED        SIZE
+          hello-world   latest   fce289e99eb9    4 months ago   1.84kB
+
+          $ docker container ls --all
+          CONTAINER ID  IMAGE        COMMAND   CREATED         STATUS
+          634fa48be01c  hello-world  "/hello"  1 minutes ago  Exited (0) 1 minutes ago
+          929a5e54e8bf  hello-world  "/hello"  2 minutes ago  Exited (0) 2 minutes ago
+          ```
         </script>
       </section>
 
@@ -325,11 +345,11 @@
           ##Docker оркестрация
           3 инструмента для оркестрации распределенных с помощью Docker приложений
           - Docker Machine
-          - позволяет создавать и управлять Docker хостами
+            - позволяет создавать и управлять Docker хостами
           - Docker Swarm
-          - объединяет множества Docker Engine в кластеры
+            - объединяет множества Docker Engine в кластеры
           - Docker Compose
-          - позволяет создавать и управлять многоконтейнерными приложениями
+            - позволяет создавать и управлять многоконтейнерными приложениями
         </script>
       </section>
     </section>
