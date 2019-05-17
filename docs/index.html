@@ -1,378 +1,414 @@
 <!doctype html>
 <html lang="en">
 
-  <head>
-    <meta charset="utf-8">
+<head>
+  <meta charset="utf-8">
 
-    <title>Docker</title>
+  <title>Docker</title>
 
-    <meta name="description" content="cours d'introduction a l'administration system">
-    <meta name="author" content="Loic Delestra">
+  <meta name="description" content="cours d'introduction a l'administration system">
+  <meta name="author" content="Loic Delestra">
 
-    <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <!-- <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" /> -->
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <!-- <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" /> -->
 
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui"> -->
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui"> -->
 
-    <link rel="stylesheet" href="css/reveal.css">
-    <link rel="stylesheet" href="css/theme/beige.css" id="theme">
+  <link rel="stylesheet" href="css/reveal.css">
+  <link rel="stylesheet" href="css/theme/beige.css" id="theme">
 
-    <link rel="stylesheet" href="css/custom.css">
+  <link rel="stylesheet" href="css/custom.css">
 
 
-    <!-- Code syntax highlighting -->
-    <link rel="stylesheet" href="lib/css/zenburn.css">
+  <!-- Code syntax highlighting -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
 
-    <!-- Printing and PDF exports -->
-    <script>
+  <!-- Printing and PDF exports -->
+  <script>
       var link = document.createElement( 'link' );
       link.rel = 'stylesheet';
       link.type = 'text/css';
       link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
       document.getElementsByTagName( 'head' )[0].appendChild( link );
-    </script>
+  </script>
 
-    <!--[if lt IE 9]>
-    <script src="lib/js/html5shiv.js"></script>
-    <![endif]-->
-  </head>
+  <!--[if lt IE 9]>
+  <script src="lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
 
-  <body>
+<body>
 
-    <div class="reveal">
+<div class="reveal">
 
-      <!-- Any section element inside of this container is displayed as a slide -->
-      <div class="slides">
-        <section data-markdown>
-          <script type="text/template">
-            # Docker 
-            Из официального тренинга от Johnny Tu
-          </script>
-        </section>
+  <!-- Any section element inside of this container is displayed as a slide -->
+  <div class="slides">
+    <section data-markdown>
+      <script type="text/template">
+        # Docker
+      </script>
+    </section>
 
-        <section>
+    <!--Section 1-->
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          #1. Введение
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              #1. Введение
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Что это ?
+          Docker - это платформа для разработки, поставки и запуска приложений с использованием технологии
+          контейнерной виртуализации.
+          <br>
+          <br>
+          Платформа Docker содержит ряд различных утилит.
+          <br>
+          <br>
+          >Docker
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Что это ?
-              Docker - это платформа для разработки, поставки и запуска приложений с использованием технологии
-              контейнерной виртуализации.
-              <br>
-              <br>
-              Платформа Docker содержит ряд различных утилит.
-              <br>
-              <br>
-              >Docker
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Что это ?
+          Docker - это программное обеспечение для автоматизации развёртывания и управления приложениями в средах с
+          поддержкой контейнеризации. Позволяет «упаковать» приложение со всем его окружением и зависимостями в
+          контейнер, который может быть перенесён на любую Linux-систему
+          <br>
+          <br>
+          >Wikipedia
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Что это ?
-              Docker - это программное обеспечение для автоматизации развёртывания и управления приложениями в средах с
-              поддержкой контейнеризации. Позволяет «упаковать» приложение со всем его окружением и зависимостями в
-              контейнер, который может быть перенесён на любую Linux-систему
-              <br>
-              <br>
-              >Wikipedia
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          #История
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              #История
-            </script>
-          </section>
-          
-          <section data-markdown>
-            <script type="text/template">
-              ##Одно приложение на одном физическом сервере
-              <img src="img/docker_one_app_one_server.png" alt="">
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Одно приложение на одном физическом сервере
+          <img src="img/docker_one_app_one_server.png" alt="">
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Недостатки
-              - Длительное время развертывания
-              - Огромные цена
-              - Простой ресурсов
-              - Сложности масштабирования и миграции
-              - Vendor Lock
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Недостатки
+          - Длительное время развертывания
+          - Огромные цена
+          - Простой ресурсов
+          - Сложности масштабирования и миграции
+          - Vendor Lock
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Hypervisor
-              - Один физический сервер может содержать несколько независимых приложений
-              - Каждое приложение изолировано внутри своей VM
+      <section data-markdown>
+        <script type="text/template">
+          ##Hypervisor
+          - Один физический сервер может содержать несколько независимых приложений
+          - Каждое приложение изолировано внутри своей VM
 
-              <img src="img/docker_hypervisor_based_virtualization.png" alt="">
-            </script>
-          </section>
+          <img src="img/docker_hypervisor_based_virtualization.png" alt="">
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Преимущества
-              - Лучшее распределение ресурсов
-                - один физический сервер разделен на ряд VM
-              - Легче масштабировать
-              - Легко перенести
-              - Можно запустить в облаке
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Преимущества
+          - Лучшее распределение ресурсов
+          - один физический сервер разделен на ряд VM
+          - Легче масштабировать
+          - Легко перенести
+          - Можно запустить в облаке
+        </script>
+      </section>
 
+      <section data-markdown>
+        <script type="text/template">
+          ###Ограничения
+          - Для каждой VM по прежнему требуется
+          - выделение CPU
+          - хранилище
+          - RAM
+          - установка гостевой ОС
+          - Чем больше VM запускаешь, тем больше нужно ресурсов
+          - Гостевая OС впустую потребляет ресурсы
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ###Ограничения
-              - Для каждой VM по прежнему требуется
-                - выделение CPU
-                - хранилище
-                - RAM
-                - установка гостевой ОС
-              - Чем больше VM запускаешь, тем больше нужно ресурсов
-              - Гостевая OС впустую потребляет ресурсы
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Контейнеры
+          >Контейнерная виртуализация использует ядро основной ОС для запуска множества экземпляров гостевых ОС
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Контейнеры
-              >Контейнерная виртуализация использует ядро основной ОС для запуска множества экземпляров гостевых ОС
+          - Каждый экземпляр гостевой ОС называется контейнер
+          - Каждый контейнер имеет собственные
+          - корневую файловую систему
+          - процессы
+          - память
+          - сетевые порты
+        </script>
+      </section>
 
-              - Каждый экземпляр гостевой ОС называется контейнер
-              - Каждый контейнер имеет собственные
-                - корневую файловую систему
-                - процессы
-                - память
-                - сетевые порты
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Контейнеры
+          <img src="img/docker_containers_oskernel.png" alt="">
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Контейнеры
-              <img src="img/docker_containers_oskernel.png" alt="">
-            </script>
-          </section>
-          
-          <section data-markdown>
-            <script type="text/template">
-              ##Преимущества контейнеров перед VM
-              - Легковесны
-              - Не требуют установки гостевой ОС
-              - Меньшее потребление CPU, RAM, хранилища
-              - Можно запустить большее количество контейнеров на одной машине
-              - Бо́льшая портативность
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Преимущества контейнеров перед VM
+          - Легковесны
+          - Не требуют установки гостевой ОС
+          - Меньшее потребление CPU, RAM, хранилища
+          - Можно запустить большее количество контейнеров на одной машине
+          - Бо́льшая портативность
+        </script>
+      </section>
 
-        </section>
+    </section>
 
-        <section>
+    <!--Section 2-->
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          #2. Понятия и термины
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              #2. Concepts and Terms 
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Docker и ядро Linux
+          - **Docker Engine** (сервис) - это программа позволяющая строить, поставлять и запускать контейнеры.
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Docker и ядро Linux
-              - **Docker Engine** (сервис) - это программа позволяющая строить, поставлять и запускать контейнеры.
+          <img src="img/docker_linux_kernel.png" alt="">
+        </script>
+      </section>
 
-              <img src="img/docker_linux_kernel.png" alt="">
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Установка
+          Для удобства мы будем использовать
+          <a href="https://labs.play-with-docker.com/" target="_blank">готовую облачную среду</a>
+        </script>
+      </section>
 
+      <section data-markdown>
+        <script type="text/template">
+          ###Linux
+          ####Установка репозитория
+          ```
+          sudo apt-get update
+          sudo apt-get install \
+          apt-transport-https \
+          ca-certificates \
+          curl \
+          gnupg-agent \
+          software-properties-common
+          curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+          sudo add-apt-repository \
+          "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+          $(lsb_release -cs) \
+          stable"
+          ```
+          ####Установка Docker CE
+          ```
+          sudo apt-get update
+          sudo apt-get install docker-ce docker-ce-cli containerd.io
+          ```
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Установка
-              Для удобства мы будем использовать
-              <a href="https://labs.play-with-docker.com/" target="_blank">готовую облачную среду</a>
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ###Windows и Mac OS X:
+          Docker'у необходимо ядро linux... придется использовать виртуальную машину.
 
-          <section data-markdown>
-            <script type="text/template">
-              ###Linux
-              ####Установка репозитория
-              ```
-              sudo apt-get update
-              sudo apt-get install \
-                apt-transport-https \
-                ca-certificates \
-                curl \
-                gnupg-agent \
-                software-properties-common
-              curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-              sudo add-apt-repository \
-                "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-                $(lsb_release -cs) \
-                stable"
-              ```
-              ####Установка Docker CE
-              ```
-              sudo apt-get update
-              sudo apt-get install docker-ce docker-ce-cli containerd.io
-              ```
-            </script>
-          </section>
+          Процесс установки подробно описан на сайте самого Docker'а:<br>
+          <a href="https://docs.docker.com/docker-for-mac/install/" target="_blank">MAC</a> и
+          <a href="https://docs.docker.com/docker-for-windows/install/" target="_blank">Windows</a>
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ###Windows и Mac OS X:
-              Docker'у необходимо ядро linux... придется использовать виртуальную машину.
+      <section data-markdown>
+        <script type="text/template">
+          ###Проверка работы docker
+          ```
+          $ sudo docker run hello-world
+          ```
+          Эта команда загрузит образ, создаст и запустит "Hello, World!" контейнер
 
-              Процесс установки подробно описан на сайте самого Docker'а:<br>
-              <a href="https://docs.docker.com/docker-for-mac/install/" target="_blank">MAC</a> и
-              <a href="https://docs.docker.com/docker-for-windows/install/" target="_blank">Windows</a>
-            </script>
-          </section>
+          /\*lets try\*/
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ###Проверка работы docker
-              ```
-              $ sudo docker run hello-world
-              ```
-              Эта команда загрузит и запустит "Hello, World!" контейнер
+      <section data-markdown>
+        <script type="text/template">
+          ##Docker клиент и сервис
+          - Клиент-серверная архитектура
+          - Клиент получает команды от пользователя и отправляет их сервису
+          - Сервис строит, запускает и распростроняет контейнеры
+          - Клиент и сервис могут быть как на одной, так и на разных машинах
+        </script>
+      </section>
 
-              /\*lets try\*/
-            </script>
-          </section>
+      <section>
+        <img src="img/docker_client_daemon.png" alt="">
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Docker клиент и сервис
-              - Клиент-серверная архитектура
-              - Клиент получает команды от пользователя и отправляет их сервису
-              - Сервис строит, запускает и распростроняет контейнеры
-              - Клиент и сервис могут быть как на одной, так и на разных машинах
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Проверим версию клиента и сервиса
+          ```
+          $ docker version
+          ```
+          /\*lets see\*/
+        </script>
+      </section>
 
-          <section>
-          <img src="img/docker_client_daemon.png" alt="">
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Образы и контейнеры
+          **Образ (Image)**
+          - Read-only шаблон для создания контейнера
+          - Создан вами или другими участниками сообщества
+          - Хранится на Docker Hub или любом другом Registry
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Проверим версию клиента и сервиса
-              ```
-              $ docker version
-              ```
-              /\*lets see\*/
-            </script>
-          </section>
+          **Контейнер (Container)**
+          - Изолированая платформа для приложения
+          - Содержит все необходимое для запуска приложения
+          - В основе его лежит Image
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Образы и контейнеры
-              **Образ (Image)**
-              - Read-only шаблон для создания контейнера
-              - Создан вами или другими участниками сообщества
-              - Хранится на Docker Hub или любом другом Registry
+      <!--section data-markdown>
+        <script type="text/template">
+          Перед созданием "Hello, world!" контейнера, в локальную файловую систему скачался образ hello-world
+          для последующих запусков он будет взят из локального хранилища. Можно посмотреть доступные локально образы:
+          ```
+          $ docker image ls
+          REPOSITORY    TAG      IMAGE ID        CREATED        SIZE
+          hello-world   latest   fce289e99eb9    4 months ago   1.84kB
+          ```
+        </script>
+      </section>
 
-              **Контейнер (Container)**
-              - Изолированая платформа для приложения
-              - Содержит все необходимое для запуска приложения
-              - В основе его лежит Image
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          Список контейнеров можно посмотреть так:
+          ```
+          $ docker container ls --all
+          CONTAINER ID  IMAGE        COMMAND   CREATED         STATUS
+          929a5e54e8bf  hello-world  "/hello"  2 minutes ago   Exited (0) 2 minutes ago
+          ```
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Registry и репозитории
-              Registry - то место, где хранятся образы. Registry может быть приватным или публичным (Docker Hub)
-              Внутри Registry находятся репозитории
-              <img src="img/docker_registry_repository.png" alt="">
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          Повторный запуск команды
+          ```
+          $ sudo docker run hello-world
+          ```
+          создаст новый контейнер, образ же при этом останется один
+          ```
+          $ docker image ls
+          REPOSITORY    TAG      IMAGE ID        CREATED        SIZE
+          hello-world   latest   fce289e99eb9    4 months ago   1.84kB
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Docker Orchestration
-              Three tools for orchestrating distributed applications with Docker
-              - Docker Machine
-                - Tool that provisions Docker hosts and installs the Docker Engine on them
-              - Docker Swarm
-                - Tool that clusters many Engines and schedules containers
-              - Docker Compose
-                - Tool to create and manage multi-container applications
-            </script>
-          </section>
-        </section>
+          $ docker container ls --all
+          CONTAINER ID  IMAGE        COMMAND   CREATED         STATUS
+          634fa48be01c  hello-world  "/hello"  1 minutes ago  Exited (0) 1 minutes ago
+          929a5e54e8bf  hello-world  "/hello"  2 minutes ago  Exited (0) 2 minutes ago
+          ```
+        </script>
+      </section-->
 
-        <section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Registry и репозитории
+          Registry - то место, где хранятся образы. Registry может быть приватным или публичным (Docker Hub)
 
-          <section data-markdown>
-            <script type="text/template">
-              #3. Images
-            </script>
-          </section>
+          Внутри Registry находятся репозитории, в репозиториях лежат образы
+          <img src="img/docker_registry_repository.png" alt="">
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ## Search for Images on Docker Hub
-              - lots of Images available for use
-              - Images reside in various Repositories
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Docker оркестрация
+          3 инструмента для оркестрации распределенных с помощью Docker приложений
+          - Docker Machine
+            - позволяет создавать и управлять Docker хостами
+          - Docker Swarm
+            - объединяет множества Docker Engine в кластеры
+          - Docker Compose
+            - позволяет создавать и управлять многоконтейнерными приложениями
+        </script>
+      </section>
+    </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              https://hub.docker.com/explore/
-              <img src="img/docker_explore_official_repo.png" alt="">
-            </script>
-          </section>
+    <!--Section 3-->
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          #3. Образы (Images)
+        </script>
+      </section>
 
+      <section data-markdown>
+        <script type="text/template">
+          ##Поиск образов на Docker Hub
+          - Множество образов доступны для использования
+          - Образы лежат в различных репозиториях
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Display Local Images
-              ```
-              $ docker images
-              ```
-              - When creating a container, docker will attempt to use a local image first
-              - If no local image is found, the Docker daemon will look in Docker Hub unless another registry is specified.
-              <br>
-              <br>
-              /\*lets take a look\*/
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          <a href="https://hub.docker.com/search?q=&type=image" target="_blank">https://hub.docker.com/search</a>
+          <img src="img/docker_explore_official_repo.png" alt="">
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Image Tags
-              - Images are specified by repository:tag
-              - The same image may have multiple tags
-              - Default tag is `latest`
-              <br>
-              <br>
-              Classically Tags are version or tools
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Показать локальные образы
+          ```
+          $ docker images
+          ```
+          - При создании контейнера Docker сначала пытается найти образ локально
+          - Если нет локальной копии, Docker пойдет настроенный Registry или на Docker Hub (Registry по умолчанию)
 
-          <section data-markdown>
-            <script type="text/template">
-              ###Available tags for **openjdk** image
-              <img src="img/docker_openjdk_tags.png" alt="">
+          /\*lets take a look\*/
+        </script>
+      </section>
 
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Тэги Образов (Image Tags)
+          - Образы идендифицируются по строке repository:tag
+          - Один образ может иметь множество тэгов
+          - Тэг по умолчанию - `latest`
 
-        </section>
+          Традиционно в качестве тэга используется имя версии и/или используемых инструментов
+        </script>
+      </section>
+
+      <section data-markdown>
+        <script type="text/template">
+          ###Тэги используемые для образов **openjdk**
+          <img src="img/docker_openjdk_tags.png" alt="">
+        </script>
+      </section>
+    </section>
 
         <section>
 
