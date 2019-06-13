@@ -798,7 +798,7 @@
     <section>
       <section data-markdown>
         <script type="text/template">
-          #7. Managing Images and Containers
+          #7. Управление образами и контейнерами
         </script>
       </section>
 
@@ -880,73 +880,79 @@
       </section>
     </section>
 
-        <section>
+    <!--#8. Тома-->
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          #8. Volumes (Тома данных)
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              #8. Volumes
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Volumes (Тома данных)
+          >Том - это определенная директория внутри контейнера, предназначенная для длительного хранения данных и
+          независимая от жизненного цикла контейнера
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Volumes
-              >A volumes is a designated directory in a container, wich is designed to persist data, independent of the container's file cycle
+          - Изменения в томах не затрагиваются при обновлении образа
+          - Тома сохраняются при удалении контейнера
+          - Том может быть подключен в директорию host машины
+          - Том может быть доступен нескольким контейнерам
+        </script>
+      </section>
 
-              - Volume changes are excluded when updating an image
-              - Persist when a container is deleted
-              - Can be mapped to a host folder
-              - Can be shared between containers
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Монтирование тома
+          - Тома монтируются при создании или запуске контейнера
+          - Путь к тому должен быть абсолютным
+          ```
+          # Запуск нового контейнера и монтирование именованого тома
+          # 'testvolume' в директорию /myvolume его файловой системы
+          docker run -d -P -v testvolume:/myvolume nginx:1.9.4
+          ```
+          ```
+          # Запуск нового контейнера и мапинг директории /data/src
+          # с host машины в директорию /test/src контейнера
+          docker run -i -t -v /data/src:/test/src nginx:1.9.4
+          ```
+          ```
+          # Запуск нового контейнера и мапинг директории target из
+          # текущей директории
+          mkdir target
+          docker run -d -v "$(pwd)"/target:/app nginx
+          ```
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Mount a Volume
-              - Volumes are mounted when creating or executing a container
-              - Can be mapped to a host directory
-              - Volume paths specified must be absolute
+      <section data-markdown>
+        <script type="text/template">
+          ##Тома в Dockerfile
+          - Инструкция VOLUME создает точку монтирования
+          - Может принимать JSON массив или строку в качестве аргумента
+          - Не может подключать тома к директориям host машины
+          - Тома инициализируются при запуске контейнера
+          ```
+          # Использование строки
+          VOLUME /myvol
+          # Использование строки для создания множества томов
+          VOLUME /www/website1.com /www/website2.com
+          # Использование JSON массива
+          VOLUME ["myvol", "myvol2"]
+          ```
+        </script>
+      </section>
 
-              ```
-              #Execute a new container and mount the named volume 'testvolume' to the folder /myvolume into its file system
-              docker run -d -P -v testvolume:/myvolume nginx:1.9.4
-              #Execute a new container and map the /data/src folder from the host into the /test/src folder in the container
-              docker run -i -t -v /data/src:/test/src nginx:1.9.4
-              docker run -d -v "$(pwd)"/target:/app nginx
-              ```
-            </script>
-          </section>
-
-          <section data-markdown>
-            <script type="text/template">
-              ##Volumes in Dockerfile
-              - VOLUME instruction creates a mount point
-              - Can specify arguments JSON array or string
-              - Cannot map volumes to host directories
-              - Volumes are initialized when the container is executed
-
-              ```
-              #String example
-              VOLUME /myvol
-              #String example with multiple volumes
-              VOLUME /www/website1.com /www/website2.com
-              #JSON example
-              VOLUME ["myvol", "myvol2"]
-              ```
-
-            </script>
-          </section>
-
-          <section data-markdown>
-            <script type="text/template">
-              ##Uses of volumes
-              - De-couple the data that is stored from the container which created the data (exemple logs)
-              - Good for sharing data between containers
-                - Can setup a data containers which has a volume you mount in other containers
-              - Mounting folders from the host is good for testing purpose but generally not recommended for production use
-            </script>
-          </section>
-        </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Использование томов
+          - Отделение данных для длительного хранения от контейнера который эти данные создает (например логи)
+          - Отлично подходит для разделения данных между несколькими контейнерами
+          - Монтирование директорий с host машины полезно на этапе тестирования, но обычно не рекомендуется для
+          использования в реальной эксплуатации
+        </script>
+      </section>
+    </section>
 
         <section>
 
