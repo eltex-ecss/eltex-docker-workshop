@@ -572,226 +572,227 @@
       </section>
     </section>
 
-        <section>
+    <!--#6. Dockerfile-->
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          #6. Dockerfile
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              #6. Dockerfile
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Введение в Dockerfile
+          >**Dockerfile** - это конфигурационный файл содержащий инструкции для сборки Docker образа
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Intro to Dockerfile
-              >A **Dockerfile** is a configuration file that contains instructions for building a Docker image
+          - Предоставляет более удобный метод для сборки образов, чем `docker commit`
+          - Легко встраивается в CI/CD процесс
+        </script>
+      </section>
 
-              - Provides a more effective way to build images compared to using docker commit
-              - Easily fits into your continuous integration and deployment process
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Инструкции Dockerfile
+          - Инструкции определяют, что необходимо делать для сборки образа
+          - Инструкция FROM определяет какой базовый образ использовать
+          - Инструкция RUN определяет команду для исполнения
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Dockerfile instructions
-              - Instructions specify what to do when building the image
-              - FROM instruction specifies what the base image should be
-              - RUN instruction specifies a command to execute
+          Пример:
+          ```
+          FROM ubuntu:14.04
+          RUN apt-get install -y vim
+          RUN apt-get install -y curl
+          ```
+        </script>
+      </section>
 
-              Пример:
-              ```
-              FROM ubuntu:14.04
-              RUN apt-get install -y vim
-              RUN apt-get install -y curl
-              ```
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Инструкция Run
+          - Каждая инструкция RUN будет выполнена не верхнем (writable) слое и сделает commit получившегося образа
+          - Может содержать последовательность команд объединенных через `&&`
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Run Instruction
-              - Each RUN instruction will execute the command on the top writable layer and perform a commit of the image
-              - Can aggregate multiple RUN instructions by using `&&`
+          Пример:
+          ```
+          RUN apt-get update && apt-get install -y curl vim
+          ```
+        </script>
+      </section>
 
-              Пример:
-              ```
-              RUN apt-get update && apt-get install -y curl vim
-              ```
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Docker Build
+          - Синтаксис
+          <br>
+          `docker build [options] [path]`
+          - Часто используется с опцией присвоения имени (и тэга)
+          <br>
+          `docker build -t [repository:tag] [path]`
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Docker Build
-              - Syntax
-              <br>
-              `docker build [options] [path]`
-              - Common option to tag the build
-              <br>
-              `docker build -t [repository:tag] [path]`
+          -t (--tag) для задания имени
+          <br>
+          path - build context
+        </script>
+      </section>
 
-              -t is for tag
-              <br>
-              Path is the build context.
+      <section data-markdown>
+        <script type="text/template">
+          ###Build context
+          - При использовании ссылок на файлы в инструкциях - файлы должны находиться в build context
+          - Во время сборки Docker-клиент упакует файлы контекста и отправит их Docker-сервису
+          - Это также то самое место, где docker будет искать Dockerfile.
+          <br>
+          По умолчанию - это файл с именем Dockerfile в корневой папке контекста (-f, --file - для переопределения)
+        </script>
+      </section>
 
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          Пример:
+          ```
+          $ cd files/build-vim && docker build -t your-docker-id/vim:1.2 .
+          #or
+          $ docker build -t your-docker-id/vim:1.2 files/build-vim
+          ```
 
-          <section data-markdown>
-            <script type="text/template">
-              ###Build context
-              - When you reference files inside instructions it must be file in your build context.
-              - When building docker client will tar files from the context and send it to the docker daemon.
-              - Thats also where docker will look for your Dockerfile.<br>By default its the file named Dockerfile in the root of the context (for a different one use -f option)
-            </script>
-          </section>
+          /\*lets try\*/
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              Example
-              ```
-              $ docker build -t lodelestra/vim:1.2 .
-              #or
-              $ docker build -t lodelestra/vim:1.2 vim_project
-              ```
+      <section data-markdown>
+        <script type="text/template">
+          Вывод:
+          ```
+          $ cat Dockerfile
+          FROM ubuntu:14.04
+          RUN apt-get update && apt-get install -y vim
 
-              /\*lets try\*/
-            </script>
-          </section>
+          $ docker build -t your-docker-id/vim:1.2 files/build-vim
+          Sending build context to Docker daemon 2.048 kB
+          Step 0 : FROM ubuntu:14.04
+           ---> f216cfb59484
+          Step 1 : RUN apt-get update && apt-get install -y vim
+           ---> Running in 8cd9a9ac0b1d
+          ...
+          #install logs
+          ...
+          Removing intermediate container 8cd9a9ac0b1d
+           ---> 35217bd61152
+          Successfully built 35217bd61152
+          Successfully tagged your-docker-id/vim:1.2
+          ```
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              output
-              ```bash
-              bash-3.2$ cat Dockerfile
-              FROM ubuntu:14.04
-              RUN apt-get update && apt-get install -y vim
+      <section data-markdown>
+        <script type="text/template">
+          ##Инструкция CMD
+          - CMD определят какая команда будет выполнена по умолчанию при создании контейнера
+          - CMD не выполняет действий во время сборки образа
+          - Поддерживает Shell и EXEC форматы
+          - Может быть определена только один раз в пределах Dockerfile
+          - **Может быть переопределена при запуске контейнера**
 
-              bash-3.2$ docker build -t lodelestra/buildproject:1.0 .
-              Sending build context to Docker daemon 2.048 kB
-              Step 0 : FROM ubuntu:14.04
-               ---> 91e54dfb1179
-              Step 1 : RUN apt-get update && apt-get install -y vim
-               ---> Running in 54c85fe3bed4
-               ...
-               #install logs
-               ...
-               ---> 58c42776c9b7
-              Removing intermediate container 54c85fe3bed4
-              Successfully built 58c42776c9b7
-              ```
-            </script>
-          </section>
+          ```
+          #Shell format
+          CMD ping 127.0.0.1 -c 30
+          #Exec format (json)
+          CMD ["ping", "127.0.0.1", "-c", "30"]
+          ```
+        </script>
+      </section>
 
+      <section data-markdown>
+        <script type="text/template">
+          ###Example
 
-          <section data-markdown>
-            <script type="text/template">
-              ##CMD Instruction
-              - CMD defines a default command to execute when a container is created
-              - CMD performs no action during the image build
-              - Shell format and EXEC format
-              - Can only be specified once in a Dockerfile
-              - **Can be overridden at run time**
+          ```
+          $ cat Dockerfile
+          FROM ubuntu:14.04
+          RUN apt-get update && apt-get install -y vim
+          CMD ["ping", "127.0.0.1", "-c", "30"]
+          ```
+          ```
+          $ docker build -t your-docker-id/vim:1.3 files/build-vim-ping-cmd
+          Sending build context to Docker daemon 2.048 kB
+          Step 0 : FROM ubuntu:14.04
+           ---> 91e54dfb1179
+          Step 1 : RUN apt-get update && apt-get install -y vim
+           ---> Using cache
+           ---> 35217bd61152
+          Step 2 : CMD ping 127.0.0.1 -c 30
+           ---> Running in edcb94bb0c12
+          Removing intermediate container edcb94bb0c12
+          ---> 989fb2bf2f41
+          Successfully tagged your-docker-id/vim:1.3
+          $
+          ```
+          Adding a layer is very faster than building first image
+        </script>
+      </section>
 
-              ```bash
-              #Shell format
-              CMD ping 127.0.0.1 -c 30
-              #Exec format (json)
-              CMD ["ping", "127.0.0.1", "-c", "30"]
-              ```
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ###Инструкция ENTRYPOINT
+          - Определят какая команда будет выполнена при запуске контейнера
+          - Runtime аргументы и инструкция CMD передаются как параметры в инструкцию ENTRYPOINT
+          - Поддерживает Shell и EXEC форматы
+          - EXEC формат предпочтительнее, т.к. shell формат не может принимать аргументы в runtime
+          <!-- - Container essentially runs as an executable-->
+          - ENTRYPOINT не может быть переопределена при запуске
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ###Example
+      <section data-markdown>
+        <script type="text/template">
+          ###Пример
+          Dockerfile
+          ```
+          $ cat Dockerfile
+          FROM ubuntu:14.04
+          RUN apt-get update && apt-get install -y vim
+          ENTRYPOINT ["ping"]
+          ```
+          сборка образа
+          ```
+          $ docker build -t your-docker-id/vim:1.4 files/build-vim-ping-ep
+          Sending build context to Docker daemon 2.048 kB
+          Step 0 : FROM ubuntu:14.04
+           ---> 91e54dfb1179
+          Step 1 : RUN apt-get update && apt-get install -y vim
+           ---> Using cache
+           ---> 58c42776c9b7
+          Step 2 : ENTRYPOINT ping
+           ---> Running in d8ffe9f42f9d
+           ---> 4f940463520e
+          Removing intermediate container d8ffe9f42f9d
+          Successfully built 4f940463520e
+          ```
+        </script>
+      </section>
 
-              ```bash
-              bash-3.2$ cat Dockerfile
-              FROM ubuntu:14.04
-              RUN apt-get update && apt-get install -y vim
-              CMD ["ping", "127.0.0.1", "-c", "30"]
-              ```
-              ```bash
-              bash-3.2$ docker build -t lodelestra/buildprojectt:1.1 .
-              Sending build context to Docker daemon 2.048 kB
-              Step 0 : FROM ubuntu:14.04
-               ---> 91e54dfb1179
-              Step 1 : RUN apt-get update && apt-get install -y vim
-               ---> Using cache
-               ---> 58c42776c9b7
-              Step 2 : CMD ping 127.0.0.1 -c 30
-               ---> Running in 13829d762189
-               ---> 8637e2fd41fd
-              Removing intermediate container 13829d762189
-              Successfully built 8637e2fd41fd
-              bash-3.2$
-              ```
-              Adding a layer is very faster than building first image
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          Как использовать
+          ```bash
+          $ docker run your-docker-id/vim:1.4
+          Usage: ping [-aAbBdDfhLnOqrRUvV] [-c count] [-i interval] [-I interface]
+          [-m mark] [-M pmtudisc_option] [-l preload] [-p pattern] [-Q tos]
+          [-s packetsize] [-S sndbuf] [-t ttl] [-T timestamp_option]
+          [-w deadline] [-W timeout] [hop1 ...] destination
+          $ docker run your-docker-id/vim:1.4 127.0.0.1 -c 10
+          PING 127.0.0.1 (127.0.0.1) 56(84) bytes of data.
+          64 bytes from 127.0.0.1: icmp_seq=1 ttl=64 time=0.032 ms
+          #...
+          64 bytes from 127.0.0.1: icmp_seq=10 ttl=64 time=0.038 ms
 
-          <section data-markdown>
-            <script type="text/template">
-              ###ENTRYPOINT Instruction
-              - Defines the command that will run when a container is executed
-              - Run time arguments and CMD instruction are passed as parameters to the ENTRYPOINT instruction
-              - Shell and EXEC form
-              - EXEC form preferred as shell form cannot accept arguments at run time
-              - Container essentially runs as an executable
-              - ENTRYPOINT cant be override at runtime
-            </script>
-          </section>
-
-          <section data-markdown>
-            <script type="text/template">
-              ###Example
-              Dockerfile
-              ```bash
-              bash-3.2$ cat Dockerfile
-              FROM ubuntu:14.04
-              RUN apt-get update && apt-get install -y vim
-              ENTRYPOINT ["ping"]
-              ```
-              build the image
-              ```bash
-              bash-3.2$ docker build -t lodelestra/buildproject:1.2 .
-              Sending build context to Docker daemon 2.048 kB
-              Step 0 : FROM ubuntu:14.04
-               ---> 91e54dfb1179
-              Step 1 : RUN apt-get update && apt-get install -y vim
-               ---> Using cache
-               ---> 58c42776c9b7
-              Step 2 : ENTRYPOINT ping
-               ---> Running in d8ffe9f42f9d
-               ---> 4f940463520e
-              Removing intermediate container d8ffe9f42f9d
-              Successfully built 4f940463520e
-              ```
-            </script>
-          </section>
-
-          <section data-markdown>
-            <script type="text/template">
-              how to use it
-              ```bash
-              bash-3.2$ docker run lodelestra/buildproject:1.2
-              Usage: ping [-aAbBdDfhLnOqrRUvV] [-c count] [-i interval] [-I interface]
-                          [-m mark] [-M pmtudisc_option] [-l preload] [-p pattern] [-Q tos]
-                          [-s packetsize] [-S sndbuf] [-t ttl] [-T timestamp_option]
-                          [-w deadline] [-W timeout] [hop1 ...] destination
-              bash-3.2$ docker run lodelestra/buildproject:1.2 127.0.0.1 -c 10
-              PING 127.0.0.1 (127.0.0.1) 56(84) bytes of data.
-              64 bytes from 127.0.0.1: icmp_seq=1 ttl=64 time=0.032 ms
-              #...
-              64 bytes from 127.0.0.1: icmp_seq=10 ttl=64 time=0.038 ms
-
-              --- 127.0.0.1 ping statistics ---
-              10 packets transmitted, 10 received, 0% packet loss, time 8996ms
-              rtt min/avg/max/mdev = 0.032/0.041/0.050/0.004 ms
-              ```
-            </script>
-          </section>
-        </section>
+          --- 127.0.0.1 ping statistics ---
+          10 packets transmitted, 10 received, 0% packet loss, time 8996ms
+          rtt min/avg/max/mdev = 0.032/0.041/0.050/0.004 ms
+          ```
+        </script>
+      </section>
+    </section>
 
         <section>
 
