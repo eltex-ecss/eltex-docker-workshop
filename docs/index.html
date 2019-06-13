@@ -245,7 +245,7 @@
           ```
           Эта команда загрузит образ, создаст и запустит "Hello, World!" контейнер
 
-          /\*lets try\*/
+          <i>/\*lets try\*/</i>
         </script>
       </section>
 
@@ -269,7 +269,7 @@
           ```
           $ docker version
           ```
-          /\*lets see\*/
+          <i>/\*lets see\*/</i>
         </script>
       </section>
 
@@ -387,7 +387,7 @@
           - При создании контейнера Docker сначала пытается найти образ локально
           - Если нет локальной копии, Docker пойдет настроенный Registry или на Docker Hub (Registry по умолчанию)
 
-          /\*lets take a look\*/
+          <i>/\*lets take a look\*/</i>
         </script>
       </section>
 
@@ -433,7 +433,7 @@
           ```
           sudo docker run ubuntu:14.04 ps aux
           ```
-          /\*Demo time\*/
+          <i>/\*Demo time\*/</i>
         </script>
       </section>
 
@@ -448,7 +448,7 @@
           ```
           docker run -i -t ubuntu /bin/bash
           ```
-          /\*Demo time\*/
+          <i>/\*Demo time\*/</i>
         </script>
       </section>
 
@@ -480,7 +480,7 @@
           - команда `docker ps` покажет запущенные контейнеры
           - команда `docker ps -a` покажет все контейнеры, в т.ч. остановленные
 
-          /\*Take a look\*/
+          <i>/\*Take a look\*/</i>
         </script>
       </section>
 
@@ -501,7 +501,7 @@
           64 bytes from 127.0.0.1: icmp_seq=1 ttl=64 time=0.041 ms
           ```
 
-          /\*Take a look\*/
+          <i>/\*Take a look\*/</i>
         </script>
       </section>
 
@@ -515,7 +515,7 @@
           ```
           $ docker run -d -P tomcat
           ```
-          /\*Take a look\*/
+          <i>/\*Take a look\*/</i>
         </script>
       </section>
     </section>
@@ -567,7 +567,7 @@
 
           >Тэг по умолчанию - latest
 
-          /\*lets try commit and run\*/
+          <i>/\*lets try commit and run\*/</i>
         </script>
       </section>
     </section>
@@ -655,7 +655,7 @@
           $ docker build -t your-docker-id/vim:1.2 files/build-vim
           ```
 
-          /\*lets try\*/
+          <i>/\*lets try\*/</i>
         </script>
       </section>
 
@@ -794,93 +794,91 @@
       </section>
     </section>
 
-        <section>
+    <!--#7. Управление образами и контейнерами-->
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          #7. Managing Images and Containers
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              #7. Managing Images and Containers
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Запуск и остановка контейнеров
+          - Сначала найдите ID нужного контейнера с помощью `docker ps`
+          - 'docker start' и 'docker stop' для запуска и остановки
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Start and Stop Containers
-              - Find your containers first with docker ps and note the ID or name
-              - 'docker start' and 'docker stop'
+          ```
+          $ docker ps -a
+          CONTAINER ID   IMAGE         ...        CREATED    ...   STATUS
+          6aacd72967b8   your-docker-id/vim:1.2   25 minutes ago   Exited (0) 25 minutes ago
+          $ docker start 6aacd72967b8
+          $ docker stop 6aacd72967b8
+          ```
+        </script>
+      </section>
 
-              ```bash
-              $ docker ps -a
-              $ docker start <container ID>
-              $ docker stop <container ID>
-              ```
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Подключение к терминалу
+          - Для запуска **нового процесса** внутри контейнера используйте команду `exec`
+          - Для запуска командной оболочки выполните `/bin/bash`
+          - `docker exec -i -t [container ID] /bin/bash`
+          - Выход из терминал **не** завершит работу контейнера
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Getting terminal access
-              - Use docker `exec` command to **start another process** within a container
-              - Execute /bin/bash to get a bash shell
-              - `docker exec -i -t [container ID] /bin/bash`
-              - Exiting from the terminal will **not** terminate the container
+          <i>/\*lets try у нас запущен tomcat\*/</i>
+        </script>
+      </section>
 
-              /\*lets try with tomcat\*/
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Удаление контейнеров
+          - Могут быть удалены только остановленные контейнеры
+          - Для удаления контейнеров используется команда `docker rm`
+          - Следует указывать имя или ID контейнера
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Deleting Containers
-              - Can only delete containers that have been stopped
-              - Use `docker rm` command
-              - Specify the container ID or name
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Удаление локальных образов
+          - Для удаления образов используется команда `docker rmi`
+          - **docker rmi [ID образа]**<br>
+          или<br>
+          **docker rmi [repo:tag]**
+          - Если образ имеет несколько тэгов, нужно удалить каждый
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Deleting local Images
-              - Use docker rmi command
-              - **docker rmi [image ID]**<br>or<br>**docker rmi [repo:tag]**
-              - if an image is tagged multiple times, you have to delete each tag
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Переименование и тэгирование образов
+          `docker tag [image ID] [repo:tag]`<br>
+          или<br>
+          `docker tag [local repo:tag] [Docker Hub repo:tag]`
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Renaming Tagging Images
+      <section data-markdown>
+        <script type="text/template">
+          ##Docker Hub Репозитории
+          - Пользователи могут создавать собственные репозитории на Docker Hub
+          - Публичные и частные
+          - Выгружать локальные образы в репозитории
+        </script>
+      </section>
 
-              `docker tag [image ID] [repo:tag]`
-              <br>
-              or
-              <br>
-              `docker tag [local repo:tag] [Docker Hub repo:tag]`
-            </script>
-          </section>
-
-          <section data-markdown>
-            <script type="text/template">
-              ##Docker Hub Repositories
-              - Users can create their own repositories on Docker Hub
-              - Public and Private (one free)
-              - Push local images to a repository
-            </script>
-          </section>
-
-          <section data-markdown>
-            <script type="text/template">
-              ##Pushing images to Docker Hub
-
-              Use `docker push` command
-
-              ```
-              docker push [repo:tag]
-              ```
-              <br>
-              - Local repo must have same name and tag as the Docker Hub repo
-            </script>
-          </section>
-        </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Выгрузка образов на Docker Hub
+          Используйте команду `docker push`
+          ```
+          docker push [repo:tag]
+          ```
+          - Локальный репозиторий должен иметь то же имя и тэг как и репозиторий на Docker Hub
+        </script>
+      </section>
+    </section>
 
         <section>
 
