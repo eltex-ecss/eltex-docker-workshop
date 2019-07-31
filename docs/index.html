@@ -1014,52 +1014,6 @@
         </script>
       </section>
 
-      <!--section data-markdown>
-        <script type="text/template">
-          ##Linking Containers (Legacy)
-          >**Linking** is a communication method between containers which allows them to securely transfer data from one to another
-
-          - Source and recipient containers
-          - Recipient containers have access to data on source containers
-          - Links are established based on container names
-        </script>
-      </section>
-
-      <section data-markdown>
-        <script type="text/template">
-          <img src="img/docker_linking_containers.png" alt="">
-        </script>
-      </section>
-
-      <section data-markdown>
-        <script type="text/template">
-          ##Creating a Link
-          1. Create the source container first (database)
-          2. Create the recipient container and use the --link option
-
-          ```
-          #Create the source container using the postgres
-          docker run -d --name database postgres
-
-          #Create the recipient container and link it
-          docker run -d -P --name website --link database:db nginx
-          # "db" is an alias added in /etc/hosts
-          ```
-        </script>
-      </section>
-
-      <section data-markdown>
-        <script type="text/template">
-          ##Uses of Linking
-          - Containers can talk to each other without having to expose ports to the host
-          - Essential for micro service application architecture
-          - Пример:
-          - Container with Tomcat running
-          - Container with MySQL running
-          - Application on Tomcat needs to connect to MySQL
-        </script>
-      </section-->
-
       <section data-markdown>
         <script type="text/template">
           ##Сети типа мост (bridge)
