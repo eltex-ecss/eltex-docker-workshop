@@ -245,7 +245,7 @@
           ```
           Эта команда загрузит образ, создаст и запустит "Hello, World!" контейнер
 
-          /\*lets try\*/
+          <i>/\*lets try\*/</i>
         </script>
       </section>
 
@@ -269,7 +269,7 @@
           ```
           $ docker version
           ```
-          /\*lets see\*/
+          <i>/\*lets see\*/</i>
         </script>
       </section>
 
@@ -387,7 +387,7 @@
           - При создании контейнера Docker сначала пытается найти образ локально
           - Если нет локальной копии, Docker пойдет настроенный Registry или на Docker Hub (Registry по умолчанию)
 
-          /\*lets take a look\*/
+          <i>/\*lets take a look\*/</i>
         </script>
       </section>
 
@@ -433,7 +433,7 @@
           ```
           sudo docker run ubuntu:14.04 ps aux
           ```
-          /\*Demo time\*/
+          <i>/\*Demo time\*/</i>
         </script>
       </section>
 
@@ -448,7 +448,7 @@
           ```
           docker run -i -t ubuntu /bin/bash
           ```
-          /\*Demo time\*/
+          <i>/\*Demo time\*/</i>
         </script>
       </section>
 
@@ -480,7 +480,7 @@
           - команда `docker ps` покажет запущенные контейнеры
           - команда `docker ps -a` покажет все контейнеры, в т.ч. остановленные
 
-          /\*Take a look\*/
+          <i>/\*Take a look\*/</i>
         </script>
       </section>
 
@@ -493,7 +493,7 @@
 
           <br>Пример:
           ```
-          $ docker run -d ubuntu ping 127.0.0.1 -c 50
+          $ docker run -d alpine ping 127.0.0.1 -c 50
           29cbbcd1150f255769a549f4ef83a38a5216c2f06b1f5891530b4207266f8260
 
           $ docker logs 29cbbcd1150f255769a549f4ef83a38a5216c2f06b1f5891530b4207266f8260
@@ -501,7 +501,7 @@
           64 bytes from 127.0.0.1: icmp_seq=1 ttl=64 time=0.041 ms
           ```
 
-          /\*Take a look\*/
+          <i>/\*Take a look\*/</i>
         </script>
       </section>
 
@@ -515,7 +515,7 @@
           ```
           $ docker run -d -P tomcat
           ```
-          /\*Take a look\*/
+          <i>/\*Take a look\*/</i>
         </script>
       </section>
     </section>
@@ -567,7 +567,7 @@
 
           >Тэг по умолчанию - latest
 
-          /\*lets try commit and run\*/
+          <i>/\*lets try commit and run\*/</i>
         </script>
       </section>
     </section>
@@ -655,7 +655,7 @@
           $ docker build -t your-docker-id/vim:1.2 files/build-vim
           ```
 
-          /\*lets try\*/
+          <i>/\*lets try\*/</i>
         </script>
       </section>
 
@@ -794,317 +794,290 @@
       </section>
     </section>
 
-        <section>
+    <!--#7. Управление образами и контейнерами-->
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          #7. Управление образами и контейнерами
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              #7. Managing Images and Containers
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Запуск и остановка контейнеров
+          - Сначала найдите ID нужного контейнера с помощью `docker ps`
+          - 'docker start' и 'docker stop' для запуска и остановки
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Start and Stop Containers
-              - Find your containers first with docker ps and note the ID or name
-              - 'docker start' and 'docker stop'
+          ```
+          $ docker ps -a
+          CONTAINER ID   IMAGE         ...        CREATED    ...   STATUS
+          6aacd72967b8   your-docker-id/vim:1.2   25 minutes ago   Exited (0) 25 minutes ago
+          $ docker start 6aacd72967b8
+          $ docker stop 6aacd72967b8
+          ```
+        </script>
+      </section>
 
-              ```bash
-              $ docker ps -a
-              $ docker start <container ID>
-              $ docker stop <container ID>
-              ```
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Подключение к терминалу
+          - Для запуска **нового процесса** внутри контейнера используйте команду `exec`
+          - Для запуска командной оболочки выполните `/bin/bash`
+          - `docker exec -i -t [container ID] /bin/bash`
+          - Выход из терминал **не** завершит работу контейнера
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Getting terminal access
-              - Use docker `exec` command to **start another process** within a container
-              - Execute /bin/bash to get a bash shell
-              - `docker exec -i -t [container ID] /bin/bash`
-              - Exiting from the terminal will **not** terminate the container
+          <i>/\*lets try у нас запущен tomcat\*/</i>
+        </script>
+      </section>
 
-              /\*lets try with tomcat\*/
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Удаление контейнеров
+          - Могут быть удалены только остановленные контейнеры
+          - Для удаления контейнеров используется команда `docker rm`
+          - Следует указывать имя или ID контейнера
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Deleting Containers
-              - Can only delete containers that have been stopped
-              - Use `docker rm` command
-              - Specify the container ID or name
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Удаление локальных образов
+          - Для удаления образов используется команда `docker rmi`
+          - **docker rmi [ID образа]**<br>
+          или<br>
+          **docker rmi [repo:tag]**
+          - Если образ имеет несколько тэгов, нужно удалить каждый
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Deleting local Images
-              - Use docker rmi command
-              - **docker rmi [image ID]**<br>or<br>**docker rmi [repo:tag]**
-              - if an image is tagged multiple times, you have to delete each tag
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Переименование и тэгирование образов
+          `docker tag [image ID] [repo:tag]`<br>
+          или<br>
+          `docker tag [local repo:tag] [Docker Hub repo:tag]`
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Renaming Tagging Images
+      <section data-markdown>
+        <script type="text/template">
+          ##Docker Hub Репозитории
+          - Пользователи могут создавать собственные репозитории на Docker Hub
+          - Публичные и частные
+          - Выгружать локальные образы в репозитории
+        </script>
+      </section>
 
-              `docker tag [image ID] [repo:tag]`
-              <br>
-              or
-              <br>
-              `docker tag [local repo:tag] [Docker Hub repo:tag]`
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Выгрузка образов на Docker Hub
+          Используйте команду `docker push`
+          ```
+          docker push [repo:tag]
+          ```
+          - Локальный репозиторий должен иметь то же имя и тэг как и репозиторий на Docker Hub
+        </script>
+      </section>
+    </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Docker Hub Repositories
-              - Users can create their own repositories on Docker Hub
-              - Public and Private (one free)
-              - Push local images to a repository
-            </script>
-          </section>
+    <!--#8. Тома-->
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          #8. Volumes (Тома данных)
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Pushing images to Docker Hub
+      <section data-markdown>
+        <script type="text/template">
+          ##Volumes (Тома данных)
+          >Том - это определенная директория внутри контейнера, предназначенная для длительного хранения данных и
+          независимая от жизненного цикла контейнера
 
-              Use `docker push` command
+          - Изменения в томах не затрагиваются при обновлении образа
+          - Тома сохраняются при удалении контейнера
+          - Том может быть подключен в директорию host машины
+          - Том может быть доступен нескольким контейнерам
+        </script>
+      </section>
 
-              ```
-              docker push [repo:tag]
-              ```
-              <br>
-              - Local repo must have same name and tag as the Docker Hub repo
-            </script>
-          </section>
-        </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Монтирование тома
+          - Тома монтируются при создании или запуске контейнера
+          - Путь к тому должен быть абсолютным
+          ```
+          # Запуск нового контейнера и монтирование именованого тома
+          # 'testvolume' в директорию /myvolume его файловой системы
+          docker run -d -P -v testvolume:/myvolume nginx:1.9.4
+          ```
+          ```
+          # Запуск нового контейнера и маппинг директории /data/src
+          # с host машины в директорию /test/src контейнера
+          docker run -i -t -v /data/src:/test/src nginx:1.9.4
+          ```
+          ```
+          # Запуск нового контейнера и маппинг директории target из
+          # текущей директории
+          mkdir target
+          docker run -d -v "$(pwd)"/target:/app nginx
+          ```
+        </script>
+      </section>
 
-        <section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Тома в Dockerfile
+          - Инструкция VOLUME создает точку монтирования
+          - Может принимать JSON массив или строку в качестве аргумента
+          - Не может подключать тома к директориям host машины
+          - Тома инициализируются при запуске контейнера
+          ```
+          # Использование строки
+          VOLUME /myvol
+          # Использование строки для создания множества томов
+          VOLUME /www/website1.com /www/website2.com
+          # Использование JSON массива
+          VOLUME ["myvol", "myvol2"]
+          ```
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              #8. Volumes
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Использование томов
+          - Отделение данных для длительного хранения от контейнера который эти данные создает (например логи)
+          - Отлично подходит для разделения данных между несколькими контейнерами
+          - Монтирование директорий с host машины полезно на этапе тестирования, но обычно не рекомендуется для
+          использования в реальной эксплуатации
+        </script>
+      </section>
+    </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Volumes
-              >A volumes is a designated directory in a container, wich is designed to persist data, independent of the container's file cycle
+    <!--#9. Работа с сетью-->
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          #9. Работа с сетью
+        </script>
+      </section>
 
-              - Volume changes are excluded when updating an image
-              - Persist when a container is deleted
-              - Can be mapped to a host folder
-              - Can be shared between containers
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Маппинг портов
+          - **Внимание**: у контейнера есть собственная сеть и IP адрес
+          - Маппинг пробрасывает порты контейнера на порты host машины
+          - Порты могут быть проброшены автоматически или вручную
+          - Для маппинга используются ключи -p (--publish [list]) и -P (--publish-all) команды `docker run`
+          ```
+          # Пробросить порт 80 контейнера на порт 8080 хоста
+          docker run -d -p 8080:80 nginx:1.9.4
+          ```
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Mount a Volume
-              - Volumes are mounted when creating or executing a container
-              - Can be mapped to a host directory
-              - Volume paths specified must be absolute
+      <section data-markdown>
+        <script type="text/template">
+          ##Авто-маппинг портов
+          - Используйте ключ -P (--publish-all) команды `docker run`
+          - Автоматический маппинг пробрасывает порты из контейнера на хост
+          - Для авто-маппинга на хосте используются порты от 32768 до 61000
+          - Проброс работает толкео для портов обозначенных в инструкции EXPOSE
+          ```
+          $ docker run -d -P nginx:1.9.4
+          $ docker ps
+          IMAGE        COMMAND         ...      PORTS
+          nginx:1.9.4  "nginx -g 'daemon of…"   0.0.0.0:32774->80/tcp, 0.0.0.0:32773->443/tcp
+          ```
+        </script>
+      </section>
 
-              ```
-              #Execute a new container and mount the named volume 'testvolume' to the folder /myvolume into its file system
-              docker run -d -P -v testvolume:/myvolume nginx:1.9.4
-              #Execute a new container and map the /data/src folder from the host into the /test/src folder in the container
-              docker run -i -t -v /data/src:/test/src nginx:1.9.4
-              docker run -d -v "$(pwd)"/target:/app nginx
-              ```
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Инструкция EXPOSE
+          - Определяет какие порты контейнер слушает во время работы
+          - Порты должны быть не только объявлены, но также должен быть настроен маппинг портов
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Volumes in Dockerfile
-              - VOLUME instruction creates a mount point
-              - Can specify arguments JSON array or string
-              - Cannot map volumes to host directories
-              - Volumes are initialized when the container is executed
+          ```
+          FROM ubuntu:14.04
+          RUN apt-get update
+          RUN apt-get install -y nginx
 
-              ```
-              #String example
-              VOLUME /myvol
-              #String example with multiple volumes
-              VOLUME /www/website1.com /www/website2.com
-              #JSON example
-              VOLUME ["myvol", "myvol2"]
-              ```
+          EXPOSE 80 443
 
-            </script>
-          </section>
+          CMD ["nginx","-g","daemon off;"]
+          ```
+          ```
+          docker build -t my-nginx .
+          docker run -d -p 80:80/tcp -p 443:443/tcp my-nginx
+          ```
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Uses of volumes
-              - De-couple the data that is stored from the container which created the data (exemple logs)
-              - Good for sharing data between containers
-                - Can setup a data containers which has a volume you mount in other containers
-              - Mounting folders from the host is good for testing purpose but generally not recommended for production use
-            </script>
-          </section>
-        </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Сети типа мост (bridge)
+          > Применимо к Docker, сети такого типа, или просто "бриджи", позволяют контейнерам подключенным к одному
+            bridge обмениваться информацией и быть в то же время изолированными от других контейнеров которые к этому
+            bridge не подключены.
+        </script>
+      </section>
 
-        <section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Bridge по умолчанию
+          Этот bridge создается как только запускается Docker. Все вновь созданные контейнеры подключаются к нему,
+          если явно не указано другое поведение.
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              #9. Container Networking Basics
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Пользовательские bridge
+          - Пользовательские бриджи обеспечивают лучшую изоляцию и большую совместимость между приложениями;
+          - Контейнеры подключенные к одному пользовательскому бриджу автоматически открывают друг для друга все порты,
+            при этом снаружи все порты остаются закрытыми без явного указания другого поведения;
+          - Пользовательские бриджи автоматически предоставляют сервис DNS для разрешения имен контейнеров внутри
+            бриджа;
+          - Контейнеры могут обращаться друг к другу по имени или псевдониму;
+          - Контейнеры могут быть подключены и отключены от бриджа в любой момент.
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Mapping ports
-              - **Recall:** containers have their own network and IP address
-              - Map exposed container ports to ports on the host machine
-              - Ports can be manually mapped or auto mapped
-              - Uses the -p and -P parameters in `docker run`
+      <section data-markdown>
+        <script type="text/template">
+          Создание пользовательского бриджа
 
-              ```
-              #Maps port 80 on the container to 8080 on the host
-              docker run -d -p 8080:80 nginx:1.9.4
-              ```
-            </script>
-          </section>
+          `$ docker network create my-net`
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Automapping ports
-              - Use the -P option in **docker run**
-              - Automatically maps exposed ports in the container to a port number in the host
-              - Host port numbers used go from 49153 to 65535
-              - Only work for ports defined in the EXPOSE instruction
+          Опции создания можно посмотреть командой
 
-              ```
-              #Auto map ports exposed by the NGINX container to a port value on the host
-              docker run -d -P nginx:1.9.4
-              ```
-            </script>
-          </section>
+          `$ docker network create --help`
 
-          <section data-markdown>
-            <script type="text/template">
-              ##EXPOSE instruction
-              - Configures which ports a container will listen on at runtime
-              - Ports still need to be mapped when container is executed
+          ---
+          Удалить пользовательский бридж
 
-              ```
-              FROM ubuntu:14.04
-              RUN apt-get update
-              RUN apt-get install -y nginx
+          `$ docker network rm my-net`
+        </script>
+      </section>
 
-              EXPOSE 80 443
+      <section data-markdown>
+        <script type="text/template">
+          Подключение контейнера к бриджу при создании
 
-              CMD ["nginx","-g","daemon off;"]
-              ```
-            </script>
-          </section>
+          `$ docker create --name my-nginx --network my-net --publish 8080:80 nginx:latest`
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Linking Containers (Legacy)
-              >**Linking** is a communication method between containers which allows them to securely transfer data from one to another
+          ---
+          Подключение работающего контейнера к бриджу
 
-              - Source and recipient containers
-              - Recipient containers have access to data on source containers
-              - Links are established based on container names
-            </script>
-          </section>
+          `$ docker network connect my-net my-nginx`
 
-          <section data-markdown>
-            <script type="text/template">
-              <img src="img/docker_linking_containers.png" alt="">
-            </script>
-          </section>
+          Отключение контейнера от бриджа
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Creating a Link
-              1. Create the source container first (database)
-              2. Create the recipient container and use the --link option
-
-              ```
-              #Create the source container using the postgres
-              docker run -d --name database postgres
-
-              #Create the recipient container and link it
-              docker run -d -P --name website --link database:db nginx
-              # "db" is an alias added in /etc/hosts
-              ```
-            </script>
-          </section>
-
-          <section data-markdown>
-            <script type="text/template">
-              ##Uses of Linking
-              - Containers can talk to each other without having to expose ports to the host
-              - Essential for micro service application architecture
-              - Пример:
-                - Container with Tomcat running
-                - Container with MySQL running
-                - Application on Tomcat needs to connect to MySQL
-            </script>
-          </section>
-
-          <section data-markdown>
-            <script type="text/template">
-              ##bridge networks
-              >In terms of Docker, a bridge network allows containers connected to the same bridge network to communicate, while providing isolation from containers which are not connected to that bridge network.
-            </script>
-          </section>
-
-          <section data-markdown>
-            <script type="text/template">
-              ###Default bridge
-              Create by default when you start Docker and newly-started containers connect to it unless otherwise specified.
-              - Containers can only access each other by IP addresses, unless you use the --link option
-            </script>
-          </section>
-
-          <section data-markdown>
-            <script type="text/template">
-              ###User-defined bridges
-              <!-- User-defined bridge: User-defined bridge networks are superior to the default bridge network. -->
-              - User-defined bridges provide better isolation and interoperability between containerized applications.
-                - Containers connected to the same user-defined bridge network automatically expose all ports to each other, and no ports to the outside world.
-              - User-defined bridges provide automatic DNS resolution between containers.
-                - Containers can resolve each other by name or alias.
-              - Containers can be attached and detached on the fly
-            </script>
-          </section>
-
-          <section data-markdown>
-            <script type="text/template">
-              Create a user-defined bridge network
-              `$ docker network create my-net`
-              Display create options
-              `$ docker network create --help`
-
-              ---
-              Remove a user-defined bridge network
-              `$ docker network rm my-net`
-            </script>
-          </section>
-          <section data-markdown>
-            <script type="text/template">
-              Connect a container to a user-defined bridge
-              `$ docker create --name my-nginx --network my-net --publish 8080:80 nginx:latest`
-
-              ---
-              connect a running container to an existing user-defined bridge
-              `$ docker network connect my-net my-nginx`
-              Disconnect a container from a user-defined bridge
-              `$ docker network disconnect my-net my-nginx`
-
-            </script>
-          </section>
-        </section>
+          `$ docker network disconnect my-net my-nginx`
+        </script>
+      </section>
+    </section>
 
         <section>
 
