@@ -1079,40 +1079,37 @@
       </section>
     </section>
 
-        <section>
+    <!--#10. CI-->
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          #10. Docker в Continuous Integration (CI)
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              #10. Docker in Continuous Integration
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Традиционная Continuous Integration
+          <img src="img/docker_traditional_continuous_integration.png" alt="">
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Traditional Continuous Integration
-              <img src="img/docker_traditional_continuous_integration.png" alt="">
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Использование Docker в CI. Метод 1
+          CI сервер собирает образы Docker и выкладывает их на Docker Hub
+          <img src="img/docker_in_CI.png" alt="">
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Using Docker in CI. method 1
-              - CI server builds Docker image and pushes into Docker Hub
-              <img src="img/docker_in_CI.png" alt="">
-            </script>
-          </section>
-
-          <section data-markdown>
-            <script type="text/template">
-              ##Docker Hub Auto Build. Method 2
-              - Docker Hub detects commits to source repository and builds the image
-              - Container is run during image build
-              - Testing done inside container
-              <img src="img/docker_hub_auto_build.png" alt="">
-            </script>
-          </section>
-
-        </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Docker Hub автоматически собирает образы. Метод 2
+          Docker Hub обнаруживает новые коммиты в репозиторий исходного кода и собирает новый образ
+          <img src="img/docker_hub_auto_build.png" alt="">
+        </script>
+      </section>
+    </section>
 
         <section>
 
