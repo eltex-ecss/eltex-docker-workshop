@@ -131,7 +131,7 @@
         <script type="text/template">
           ##Преимущества
           - Лучшее распределение ресурсов
-          - один физический сервер разделен на ряд VM
+          - Один физический сервер разделен на ряд VM
           - Легче масштабировать
           - Легко перенести
           - Можно запустить в облаке
@@ -142,10 +142,10 @@
         <script type="text/template">
           ###Ограничения
           - Для каждой VM по прежнему требуется
-          - выделение CPU
-          - хранилище
-          - RAM
-          - установка гостевой ОС
+            - выделение CPU
+            - хранилище
+            - RAM
+            - установка гостевой ОС
           - Чем больше VM запускаешь, тем больше нужно ресурсов
           - Гостевая OС впустую потребляет ресурсы
         </script>
@@ -158,10 +158,10 @@
 
           - Каждый экземпляр гостевой ОС называется контейнер
           - Каждый контейнер имеет собственные
-          - корневую файловую систему
-          - процессы
-          - память
-          - сетевые порты
+            - корневую файловую систему
+            - процессы
+            - память
+            - сетевые порты
         </script>
       </section>
 
@@ -198,14 +198,6 @@
           - **Docker Engine** (сервис) - это программа позволяющая строить, поставлять и запускать контейнеры.
 
           <img src="img/docker_linux_kernel.png" alt="">
-        </script>
-      </section>
-
-      <section data-markdown>
-        <script type="text/template">
-          ##Установка
-          Для удобства мы будем использовать
-          <a href="https://labs.play-with-docker.com/" target="_blank">готовую облачную среду</a>
         </script>
       </section>
 
@@ -248,6 +240,12 @@
 
       <section data-markdown>
         <script type="text/template">
+          Или воспользуемся <a href="https://labs.play-with-docker.com/" target="_blank">play-with-docker</a>
+        </script>
+      </section>
+
+      <section data-markdown>
+        <script type="text/template">
           ###Проверка работы docker
           ```
           $ sudo docker run hello-world
@@ -277,6 +275,21 @@
           ##Проверим версию клиента и сервиса
           ```
           $ docker version
+
+          Client: Docker Engine - Community
+          Version:           19.03.1
+          API version:       1.40
+          Go version:        go1.12.5
+          ...
+          Experimental:      false
+
+          Server: Docker Engine - Community
+          Engine:
+          Version:          19.03.1
+          API version:      1.40 (minimum version 1.12)
+          Go version:       go1.12.5
+          ...
+          Experimental:     false
           ```
           <i>/\*lets see\*/</i>
         </script>
@@ -564,7 +577,7 @@
       <section data-markdown>
         <script type="text/template">
           ##Docker commit
-          - команда `docker commit` сохраняет измененный контейнер как новый образ
+          - Команда `docker commit` сохраняет измененный контейнер как новый образ
           ```
           docker commit [options] [container ID] [repository:tag]
           ```
@@ -575,8 +588,30 @@
           ```
 
           >Тэг по умолчанию - latest
+        </script>
+      </section>
 
+      <section data-markdown>
+        <script type="text/template">
           <i>/\*lets try commit and run\*/</i>
+          ```
+          docker run --name ubuntu1 -it ubuntu
+          # ls
+          # touch all-my-passwords
+          # ls
+          # exit
+
+          docker commit ubuntu1 user/my-secret-file
+          docker run -it user/my-secret-file
+          ```
+          Посмотреть локальные образы
+          ```
+          docker images
+          ```
+          Выгрузка образа в Registry
+          ```
+          docker push user/my-secret-file
+          ```
         </script>
       </section>
     </section>
