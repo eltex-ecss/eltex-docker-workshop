@@ -1,0 +1,44 @@
+---
+version: "3"
+services:
+  nginx:
+    image: nginx
+    environment:
+      - TZ=Asia/Novosibirsk
+#    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ../..:/var/www/html:ro
+    deploy:
+      resources:
+        limits:
+          memory: 32M
+          cpus: '0.2'
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "8880:80"
+
+  smb:
+    image: dperson/samba
+    environment:
+      - USERID=1000
+      - GROUPID=1000
+    # -s "<name;/path>[;browse;readonly;guest;users;admins;writelist;comment]"
+    command: >-
+      samba.sh -n -r -u "user;password"
+        -s "files;/files;yes;yes;yes"
+    volumes:
+      - ../..:/files
+    deploy:
+      resources:
+        limits:
+          memory: 32M
+          cpus: '0.3'
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "139:139"
+      - "445:445"
+      - "137:137/udp"
+      - "138:138/udp"
