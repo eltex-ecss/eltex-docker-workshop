@@ -1111,94 +1111,72 @@
       </section>
     </section>
 
-        <section>
+    <!--#11. Docker Compose-->
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          #11. Docker Compose
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              #11. Docker Compose
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          >Docker **Compose** это инструмент для создания и управления мультиконтейнерными приложениями
 
-          <section data-markdown>
-            <script type="text/template">
-              >Docker **Compose** is a tool for creating and managing multi container applications
+          - Все контейнеры объявляются в одном файле "docker-compose.yml"
+          - Каждый контейнер представляет собой один компонент (сервис, микросервис) приложения
+          <br>Например: Web front end / Аутентификация пользователей / Платежи / База данных
+          - Compose will spin up all your containers in a single command
+          - Compose развернет все сервисы одной командой
+        </script>
+      </section>
 
-              - Containers are all defined in a single file called "docker-compose.yml"
-              - Each container runs a particular component/service of your application.
-              <br>For example: Web front end / User authentification / Payments / Database
-              - Container links are defined
-              - Compose will spin up all your containers in a single command
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Конфигурация yml файла для Compose
+          - Определяет сервисы из которых состоит приложение
+          - Каждый сервис содержит инструкции для сборки и запуска контейнера
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Configuring the Compose yml file
-              - Defines the services that make up your application
-              - Each service contains instructions for building and running a container
-              ```
-              version: '3'
-              services:
-                javaclient:
-                  build: .
-                  command: java HelloWorld
-                  links:
-                  - redis
-                redis:
-                  image: redis
-              ```
-            </script>
-          </section>
+          ```
+          version: '3'
+          services:
+            curl:
+              build: .
+            http:
+              image: briceburg/ping-pong
+          ```
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Build and image instruction
-              - **Build** defines the path to the Dockerfile that will be used to build the image
-              - Container will be run using the image built
-              - **Image** defines the image that will be used to run the container
-              - All service must have either a build or image instruction
-              ```
-              version: '3'
-              services:
-                javaclient:
-                  build: . # Build image using Dockerfile in current directory
-                redis:
-                  image: redis # Use the latest redis image from DockerHub
-              ```
-            </script>
-          </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Инструкции Build и Image
+          - **Build** задает путь к Dockerfile который будет использоваться для создания образа
+          - Контейнер будет запущен используя созданный образ
+          - **Image** задает образ который будет использован для создания контейнера
+          - Каждый сервис должен иметь одну из инструкций build или image
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Links
-              - Same concept as container linking
-              - Specify `<service name>:<alias>`
-              - If no alias is specified, the service name will be used as the alias
-              - Creates an entry for the alias inside the container's /etc/hosts file
-              ```
-              version: '3'
-              services:
-                javaclient:
-                  build: .
-                  command: java HelloWorld
-                  links: # <================
-                  - redis
-                redis:
-                  image: redis
-              ```
-            </script>
-          </section>
+          ```
+          version: '3'
+          services:
+            curl:
+              build: .
+            http:
+              image: briceburg/ping-pong
+          ```
+        </script>
+      </section>
 
-          <section data-markdown>
-            <script type="text/template">
-              ##Running your application
-              - Use `docker-compose up`
-              - Up command will
-                - Build the image for each service
-                - Create and start the containers
-            </script>
-          </section>
-        </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##Запуск приложения
+          - Используется команда `docker-compose up`
+          - Команда `up`:
+            - Создаст или скачает образ для каждого сервиса
+            - Создаст и запустит контейнеры
+        </script>
+      </section>
+    </section>
 
         <section>
           <section data-markdown>

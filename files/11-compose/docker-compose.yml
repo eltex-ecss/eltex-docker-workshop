@@ -1,0 +1,6 @@
+version: '3'
+services:
+  curl:
+    build: .
+  nginx:
+    image: briceburg/ping-pong
